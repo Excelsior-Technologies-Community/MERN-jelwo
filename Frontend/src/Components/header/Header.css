@@ -1,0 +1,26 @@
+/* Custom Input and Cursor Tweaks */
+.custom-search {
+  width: 250px;
+  font-size: 14px;
+  border: 1px solid #ddd !important;
+}
+.custom-search:focus {
+  box-shadow: none !important;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Brand Accent Color */
+.text-gold {
+  color: #b89775;
+}
+
+/* Nav Link Alignment & Formatting */
+.custom-nav-links .dropdown-toggle, 
+.custom-nav-links .nav-link {
+  color: #222222 !important;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 0 15px !important;
+}
