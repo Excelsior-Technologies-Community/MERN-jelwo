@@ -1,16 +1,27 @@
+import express from 'express';
+import cors from 'cors';
+import db from './config/db.js';
 
-import db from './db.js'; 
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-async function fetchProducts() {
+app.use(cors());
+app.use(express.json());
+
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'Backend is running' });
+});
+
+app.get('/api/products', async (req, res) => {
   try {
-    // Ek sample query chalakar dekhte hain
     const [rows] = await db.query('SELECT * FROM products');
-    
-    console.log('Database connected via ES Modules!');
-    console.log('Products:', rows);
+    res.json(rows);
   } catch (error) {
-    console.error('Error occurred:', error.message);
+    console.error('Error fetching products:', error.message);
+    res.status(500).json({ message: 'Failed to fetch products' });
   }
-}
+});
 
-fetchProducts();
+app.listen(PORT, () => {
+  console.log(`Backend server is running on http://localhost:${PORT}`);
+});
