@@ -1,19 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react'; 
 import { Box, Container, Typography, TextField, Button, Link } from '@mui/material';
-import banner from '../assets/all-banner.jpg'
-
+import banner from '../assets/all-banner.jpg';
+import axios from 'axios'; 
 import { useNavigate } from 'react-router-dom';
+
 const Login = () => {
   const navigate = useNavigate();
+  
+  // State initialization
+  const [formdata, setFormdata] = useState({
+    email: '',
+    password: ''
+  });
+
+  // State change handler
+  const handleChange = (e) => {
+    setFormdata({
+      ...formdata,
+      [e.target.name]: e.target.value // Fixed: e.targer ko e.target kiya
+    });
+  };
+
+  // Form submit handler
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      
+      const response = await axios.post('http://localhost:3000/api/auth/login', formdata);
+
+      alert(response.data.message || 'Login Successful!');
+      
+      
+      if (response.data.user?.token) {
+        localStorage.setItem('token', response.data.user.token);
+      }
+
+      navigate('/'); 
+    } catch (error) {
+      console.error('Login Error:', error);
+      alert(error.response?.data?.message || 'Login failed. Please try again.');
+    }
+  };
+
   return (
     <>
-      
-      <Box sx={{ position: 'relative', width: '100%', height: '260px', overflow: 'hidden', }}>
+      {/* Banner Section */}
+      <Box sx={{ position: 'relative', width: '100%', height: '260px', overflow: 'hidden' }}>
         <Box 
           component="img" 
           src={banner} 
           alt="Login Banner"
-          sx={{ width: '100%', height: '100%', objectFit: 'cover', }} 
+          sx={{ width: '100%', height: '100%', objectFit: 'cover' }} 
         />
         <Box
           sx={{
@@ -26,7 +63,7 @@ const Login = () => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center', 
-            alignItems: 'center',     
+            alignItems: 'center',    
             color: 'white',
           }}
         >
@@ -39,21 +76,25 @@ const Login = () => {
         </Box>
       </Box>
 
+      {/* Login Form Section */}
       <Container maxWidth="sm" sx={{ mt: 6, mb: 6, textAlign: 'center' }}>
-        
         <Typography variant="h4" component="h2" sx={{ fontFamily: 'serif', fontWeight: '400', mb: 2 }}>
           Login account
         </Typography>
        
-        <Box component="form" noValidate sx={{ display: 'flex', flexDirection: 'column', gap: 3, textAlign: 'left' }}>
+        {/* onSubmit handler add kiya */}
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ display: 'flex', flexDirection: 'column', gap: 3, textAlign: 'left' }}>
                   
           <Box>
-            <Typography variant="body2" sx={{ mb: 1, color: '#555' }}>  Email address </Typography>
+            <Typography variant="body2" sx={{ mb: 1, color: '#555' }}> Email address </Typography>
             <TextField
               fullWidth
               size="small"
               placeholder="Email address"
               variant="outlined"
+              name="email"            
+              value={formdata.email}   // Linked to state
+              onChange={handleChange}  //  Linked to handler
               sx={{ '& .MuiOutlinedInput-root': { borderRadius: '4px' } }}
             />
           </Box>
@@ -66,15 +107,17 @@ const Login = () => {
               type="password"
               placeholder="Password"
               variant="outlined"
+              name="password"           
+              value={formdata.password}  // Linked to state
+              onChange={handleChange}   //  Linked to handler
               sx={{ '& .MuiOutlinedInput-root': { borderRadius: '4px' } }}
             />
           </Box>
 
-          
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 1 }}>
             <Button 
               variant="contained" 
-              type="submit"
+              type="submit" 
               sx={{ 
                 bgcolor: '#a37f61', 
                 color: '#fff', 
@@ -97,7 +140,8 @@ const Login = () => {
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
             <Button 
               variant="contained" 
-              onClick={() => navigate('/register')} aria-label="register"
+              onClick={() => navigate('/register')} 
+              aria-label="register"
               sx={{ 
                 bgcolor: '#a37f61', 
                 color: '#fff', 
@@ -110,7 +154,6 @@ const Login = () => {
               }}
             >
               CREATE ACCOUNT
-
             </Button>
           </Box>
 
