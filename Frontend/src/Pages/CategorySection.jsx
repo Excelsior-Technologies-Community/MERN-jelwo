@@ -8,9 +8,9 @@ import necklaces from '../assets/necklace.webp';
 import pandels from '../assets/pandels.webp';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'hover.css/css/hover-min.css';
-// Mock Data: Aap isme apni categories add kar sakte hain
+import { useNavigate } from "react-router-dom";
 const categories = [
-  { id: 1, name: 'Rings', items: '12+ Items', image: rings },
+  { id: 1, name: 'Rings', items: '12+ Items', image: rings, path: "/ring-category" },
   { id: 2, name: 'Earrings', items: '10+ Items', image: earrings },
   { id: 3, name: 'Bracelets', items: '12+ Items', image: bracelets },
   { id: 4, name: 'Necklaces', items: '12+ Items', image: necklaces },
@@ -18,6 +18,7 @@ const categories = [
 ];
 
 export default function CategorySection() {
+   const navigate = useNavigate();
   return (
     <Box sx={{ mt: 6, mb: "5%", px: { xs: 2, md: 6 } }}>
       <Typography variant='title'
@@ -51,6 +52,7 @@ export default function CategorySection() {
 
 
               <Box
+              onClick={() => navigate(item.path)}
                 sx={{
                   position: 'relative',
                   height: { xs: 300, sm: 350, md: 450 },

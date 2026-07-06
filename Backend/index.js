@@ -3,8 +3,10 @@ dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
 import db from './config/db.js';
-import authRoutes from './routes/auth.routes.js';
+import authRoutes from './routes/auth.Routes.js';
+import productRoutes from './routes/product.Routes.js';
 
 const app = express();
 
@@ -12,8 +14,10 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
 
 app.get('/', (req, res) => {
   res.send('Backend engine running flawlessly.');

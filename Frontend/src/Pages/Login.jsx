@@ -3,6 +3,7 @@ import { Box, Container, Typography, TextField, Button, Link } from '@mui/materi
 import banner from '../assets/all-banner.jpg';
 import axios from 'axios'; 
 import { useNavigate } from 'react-router-dom';
+import Banner from '../componets/Banner'
 
 const Login = () => {
   const navigate = useNavigate();
@@ -45,36 +46,7 @@ const Login = () => {
   return (
     <>
       {/* Banner Section */}
-      <Box sx={{ position: 'relative', width: '100%', height: '260px', overflow: 'hidden' }}>
-        <Box 
-          component="img" 
-          src={banner} 
-          alt="Login Banner"
-          sx={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-        />
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            bgcolor: 'rgba(0, 0, 0, 0.3)', 
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center', 
-            alignItems: 'center',    
-            color: 'white',
-          }}
-        >
-          <Typography variant="body2" sx={{ letterSpacing: '2px', textTransform: 'uppercase', fontSize: '0.8rem', opacity: 0.8 }}>
-            Home - Account
-          </Typography>
-          <Typography variant="h3" component="h1" sx={{ fontWeight: '500', mt: 1 }}>
-            Account
-          </Typography>
-        </Box>
-      </Box>
+      <Banner title="Account" image={banner} />
 
       {/* Login Form Section */}
       <Container maxWidth="sm" sx={{ mt: 6, mb: 6, textAlign: 'center' }}>
