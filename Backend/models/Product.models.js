@@ -29,7 +29,11 @@ const Product = db.define('Product', {
   imageUrl: {
     type: DataTypes.STRING(555),
     allowNull: false,
-  }
+  },
+  category: {
+  type: DataTypes.STRING,
+  allowNull: false
+}
 }, {
   timestamps: true,
 });

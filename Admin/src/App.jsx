@@ -1,11 +1,8 @@
-import React from 'react'
-import Dashboard from '../src/Pages/Dashboard'
-const App = () => {
-  return (
-    <div>
-      <Dashboard/>
-    </div>
-  )
-}
+import React from 'react';
+import Dashboard from './Pages/Dashboard';
 
-export default App
+const App = () => {
+  return <Dashboard />;
+};
+
+export default App;

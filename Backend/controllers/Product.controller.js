@@ -5,21 +5,26 @@ import Product from "../models/Product.models.js";
 
 export const CreateProduct = async (req, res) => {
     try {
-        const { name, tag, price, discount } = req.body;
+        const { name, tag, price, discount, category } = req.body;
 
-        if (!name || !price || !req.file) {
+        if (!name || !price || !category) {
             return res.status(400).json({
-                message: "Missing required fields or image!",
+                message: "Missing required fields!",
             });
         }
+
+        const imageUrl = req.file 
+            ? `/uploads/${req.file.filename}` 
+            : 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=500&auto=format&fit=crop&q=60';
 
         const product = await Product.create({
             name,
             tag,
             price,
             discount,
-            imageUrl: `/uploads/${req.file.filename}`,
-            userId: req.user.id,
+            category,
+            imageUrl,
+            userId: req.user ? req.user.id : null,
         });
 
         return res.status(201).json({
@@ -83,14 +88,9 @@ export const GetProductById = async (req, res) => {
 
 export const UpdateProducts = async (req, res) => {
     try {
-        const { name, tag, price, discount } = req.body;
+        const { name, tag, price, discount, category } = req.body;
 
-        const product = await Product.findOne({
-            where: {
-                id: req.params.id,
-                userId: req.user.id,
-            },
-        });
+        const product = await Product.findByPk(req.params.id);
 
         if (!product) {
             return res.status(404).json({
@@ -102,6 +102,7 @@ export const UpdateProducts = async (req, res) => {
         product.tag = tag ?? product.tag;
         product.price = price ?? product.price;
         product.discount = discount ?? product.discount;
+        product.category = category ?? product.category;
 
         if (req.file) {
             product.imageUrl = `/uploads/${req.file.filename}`;
@@ -126,12 +127,7 @@ export const UpdateProducts = async (req, res) => {
 
 export const DeleteProduct = async (req, res) => {
     try {
-        const product = await Product.findOne({
-            where: {
-                id: req.params.id,
-                userId: req.user.id,
-            },
-        });
+        const product = await Product.findByPk(req.params.id);
 
         if (!product) {
             return res.status(404).json({
