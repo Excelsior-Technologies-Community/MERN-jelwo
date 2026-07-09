@@ -30,6 +30,10 @@ const Product = db.define('Product', {
     type: DataTypes.STRING(555),
     allowNull: false,
   },
+  hoverImageUrl: {
+    type: DataTypes.STRING(555),
+    allowNull: true,
+  },
   category: {
   type: DataTypes.STRING,
   allowNull: false

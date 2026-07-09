@@ -6,8 +6,8 @@ const router=express.Router();
 
 router.get("/",GetProducts);
 router.get("/:id",GetProductById);
-router.post("/",upload.single("image"),CreateProduct);
-router.put("/:id",upload.single("image"),UpdateProducts);
+router.post("/", upload.fields([{ name: 'image', maxCount: 1 }, { name: 'hoverImage', maxCount: 1 }]), CreateProduct);
+router.put("/:id", upload.fields([{ name: 'image', maxCount: 1 }, { name: 'hoverImage', maxCount: 1 }]), UpdateProducts);
 router.delete("/:id",DeleteProduct);
 
 export default router;

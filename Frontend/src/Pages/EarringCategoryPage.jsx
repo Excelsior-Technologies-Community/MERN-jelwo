@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Box, Typography, Card, CardMedia, CardContent, Grid } from '@mui/material';
-import Banner from '../componets/Banner'
-import banner from '../assets/ring-banner.webp'
+import { useState, useEffect } from 'react';
+import { Container, Box, Grid } from '@mui/material';
+import Banner from '../componets/Banner';
+import banner from '../assets/earrings.webp';
 import FilterSidebar from '../componets/Filtersidebar';
 import Product from '../componets/Product';
-import ringbanner from '../assets/RingBaner.webp';
 
-export default function RingCategoryPage() {
+export default function EarringCategoryPage() {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
@@ -15,13 +14,13 @@ export default function RingCategoryPage() {
             .then(data => setProducts(data.products || []));
     }, []);
 
-    const ringProducts = products.filter(p => p.category === 'Rings');
+    const earringProducts = products.filter(p => p.category === 'Earrings');
 
     return (
         <Box sx={{ width: '100%', bgcolor: '#fff' }}>
 
             {/* TOP HEADER BANNER */}
-            <Banner title="Ring" image={banner} />
+            <Banner title="Earrings" image={banner} />
 
             <Container maxWidth="xl" sx={{ mt: 5 }}>
                 <Grid container spacing={4}>
@@ -32,7 +31,7 @@ export default function RingCategoryPage() {
                     </Grid>
 
                     {/* RIGHT PRODUCT CATALOG GRID */}
-                    <Product products={ringProducts} categoryBanner={ringbanner} />
+                    <Product products={earringProducts} />
 
                 </Grid>
             </Container>

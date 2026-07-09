@@ -13,9 +13,13 @@ export const CreateProduct = async (req, res) => {
             });
         }
 
-        const imageUrl = req.file 
-            ? `/uploads/${req.file.filename}` 
+        const imageUrl = req.files && req.files.image && req.files.image[0]
+            ? `/uploads/${req.files.image[0].filename}` 
             : 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=500&auto=format&fit=crop&q=60';
+
+        const hoverImageUrl = req.files && req.files.hoverImage && req.files.hoverImage[0]
+            ? `/uploads/${req.files.hoverImage[0].filename}` 
+            : null;
 
         const product = await Product.create({
             name,
@@ -24,6 +28,7 @@ export const CreateProduct = async (req, res) => {
             discount,
             category,
             imageUrl,
+            hoverImageUrl,
             userId: req.user ? req.user.id : null,
         });
 
@@ -104,8 +109,13 @@ export const UpdateProducts = async (req, res) => {
         product.discount = discount ?? product.discount;
         product.category = category ?? product.category;
 
-        if (req.file) {
-            product.imageUrl = `/uploads/${req.file.filename}`;
+        if (req.files) {
+            if (req.files.image && req.files.image[0]) {
+                product.imageUrl = `/uploads/${req.files.image[0].filename}`;
+            }
+            if (req.files.hoverImage && req.files.hoverImage[0]) {
+                product.hoverImageUrl = `/uploads/${req.files.hoverImage[0].filename}`;
+            }
         }
 
         await product.save();

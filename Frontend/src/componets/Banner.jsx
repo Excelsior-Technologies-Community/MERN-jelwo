@@ -1,6 +1,5 @@
-import React from "react";
 import { Box, Typography } from "@mui/material";
-
+import defaultBanner from "../assets/all-banner.jpg";
 
 const Banner = ({ title, image = defaultBanner }) => {
   return (

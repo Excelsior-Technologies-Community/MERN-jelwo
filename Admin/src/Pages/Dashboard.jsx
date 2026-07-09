@@ -44,6 +44,8 @@ const Dashboard = () => {
   const [form, setForm] = useState(INITIAL_FORM);
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
+  const [hoverImageFile, setHoverImageFile] = useState(null);
+  const [hoverImagePreview, setHoverImagePreview] = useState('');
 
   // Delete State
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
@@ -83,12 +85,15 @@ const Dashboard = () => {
         discount: product.discount || ''
       });
       setImagePreview(getImageUrl(product.imageUrl));
+      setHoverImagePreview(product.hoverImageUrl ? getImageUrl(product.hoverImageUrl) : '');
     } else {
       setEditingProduct(null);
       setForm(INITIAL_FORM);
       setImagePreview('');
+      setHoverImagePreview('');
     }
     setImageFile(null);
+    setHoverImageFile(null);
     setOpenDialog(true);
   };
 
@@ -100,6 +105,14 @@ const Dashboard = () => {
     }
   };
 
+  const handleHoverImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setHoverImageFile(file);
+      setHoverImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleSaveProduct = async (e) => {
     e.preventDefault();
     if (!form.name.trim() || !form.price || !form.category.trim()) return;
@@ -107,6 +120,7 @@ const Dashboard = () => {
     const formData = new FormData();
     Object.keys(form).forEach(key => formData.append(key, form[key]));
     if (imageFile) formData.append('image', imageFile);
+    if (hoverImageFile) formData.append('hoverImage', hoverImageFile);
 
     try {
       let response;
@@ -133,6 +147,8 @@ const Dashboard = () => {
       setForm(INITIAL_FORM);
       setImageFile(null);
       setImagePreview('');
+      setHoverImageFile(null);
+      setHoverImagePreview('');
     } catch (err) {
       console.error('Error saving product:', err.response?.data || err.message || err);
     }
@@ -372,13 +388,22 @@ const Dashboard = () => {
                 <Grid item xs={6}>
                   <TextField fullWidth label="Discount (%)" name="discount" type="number" value={form.discount} onChange={handleInputChange} sx={textFieldLightStyle} />
                 </Grid>
-                <Grid item xs={12}>
-                  <Box sx={{ border: '1px dashed rgba(0,0,0,0.15)', borderRadius: 0, p: 3, textAlign: 'center', bgcolor: '#FAFAFA' }}>
+                <Grid item xs={6}>
+                  <Box sx={{ border: '1px dashed rgba(0,0,0,0.15)', borderRadius: 0, p: 3, textAlign: 'center', bgcolor: '#FAFAFA', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', alignItems: 'center' }}>
                     <input accept="image/*" style={{ display: 'none' }} id="file-upload" type="file" onChange={handleImageChange} />
                     <label htmlFor="file-upload">
-                      <Button component="span" variant="text" startIcon={<CloudUpload />} sx={{ color: '#111111', letterSpacing: '0.5px', fontWeight: 600 }}>UPLOAD IMAGE</Button>
+                      <Button component="span" variant="text" startIcon={<CloudUpload />} sx={{ color: '#111111', letterSpacing: '0.5px', fontWeight: 600, fontSize: '12px' }}>MAIN IMAGE</Button>
                     </label>
-                    {imagePreview && <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}><Avatar variant="square" src={imagePreview} sx={{ width: 110, height: 110, border: '1px solid #111111' }} /></Box>}
+                    {imagePreview && <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}><Avatar variant="square" src={imagePreview} sx={{ width: 90, height: 90, border: '1px solid #111111' }} /></Box>}
+                  </Box>
+                </Grid>
+                <Grid item xs={6}>
+                  <Box sx={{ border: '1px dashed rgba(0,0,0,0.15)', borderRadius: 0, p: 3, textAlign: 'center', bgcolor: '#FAFAFA', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                    <input accept="image/*" style={{ display: 'none' }} id="hover-file-upload" type="file" onChange={handleHoverImageChange} />
+                    <label htmlFor="hover-file-upload">
+                      <Button component="span" variant="text" startIcon={<CloudUpload />} sx={{ color: '#111111', letterSpacing: '0.5px', fontWeight: 600, fontSize: '12px' }}>HOVER IMAGE</Button>
+                    </label>
+                    {hoverImagePreview && <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}><Avatar variant="square" src={hoverImagePreview} sx={{ width: 90, height: 90, border: '1px solid #111111' }} /></Box>}
                   </Box>
                 </Grid>
               </Grid>

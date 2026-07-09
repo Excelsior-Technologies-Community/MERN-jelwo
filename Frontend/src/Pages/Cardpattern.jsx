@@ -43,7 +43,7 @@ const Cardpattern = () => {
       <Grid container spacing={4} sx={{textAlign: 'center', justifyContent: 'center'}}>
 
         {/* LEFT CARD */}
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Box
             sx={{
               height: { xs: 300, md: 420 },
@@ -108,7 +108,7 @@ const Cardpattern = () => {
         </Grid>
 
         {/* RIGHT CARD */}
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Box
             sx={{
               height: { xs: 300, md: 420 },

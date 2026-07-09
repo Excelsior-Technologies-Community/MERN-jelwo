@@ -11,9 +11,9 @@ import 'hover.css/css/hover-min.css';
 import { useNavigate } from "react-router-dom";
 const categories = [
   { id: 1, name: 'Rings', items: '12+ Items', image: rings, path: "/ring-category" },
-  { id: 2, name: 'Earrings', items: '10+ Items', image: earrings },
-  { id: 3, name: 'Bracelets', items: '12+ Items', image: bracelets },
-  { id: 4, name: 'Necklaces', items: '12+ Items', image: necklaces },
+  { id: 2, name: 'Earrings', items: '10+ Items', image: earrings , path:"/earring-category" },
+  { id: 3, name: 'Bracelets', items: '12+ Items', image: bracelets, path:"/bracelets-category"},
+  { id: 4, name: 'Necklaces', items: '12+ Items', image: necklaces,path:'' },
   { id: 5, name: 'Pandels', items: '12+ Items', image: pandels },
 ];
 

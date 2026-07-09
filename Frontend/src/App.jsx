@@ -4,6 +4,7 @@ import Header from './componets/Header/Header';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import RingCategoryPage from './Pages/RingCategoryPage';
+import EarringCategoryPage from './Pages/EarringCategoryPage'
 import Home from './Pages/Home';
 
 const App = () => {
@@ -16,7 +17,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/ring-category" element={<RingCategoryPage />} />
-
+<Route path="/earring-category" element={<EarringCategoryPage />} />
         {/* fallback */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
